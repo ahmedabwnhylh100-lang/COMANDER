@@ -2848,7 +2848,7 @@ def login_page():
         # --- السطر السحري الجديد: فحص الموافقة ---
         if not users[username].get('active', False):
             log_activity(username, 'auth.login.denied', 'Account pending approval')
-            return render_template_string(AUTH_TEMPLATE, error='⚠️ Your account is pending approval by Admin.', error_type='login')
+            return render_template_string(AUTH_TEMPLATE, error='⚠️ Your account is pending approval by Admin @Xcomaanderx.', error_type='login')
         # -----------------------------------------
 
         if can_user_login(username):
