@@ -124,7 +124,7 @@ PORTS_FILE         = os.path.join(BASE_PATH, 'ports.json')
 ACTIVITY_FILE      = os.path.join(BASE_PATH, 'activity_feed.json')
 
 PROFILE_IMAGE_URL = "https://k.top4top.io/p_3785nf0ym1.jpg"
-ENTRY_SOUND_URL   = "https://e.top4top.io/m_3785c7mo11.mp3"
+ENTRY_SOUND_URL   = "https://b.top4top.io/m_3785fa5tu2.mp4"
 
 # ملفات إعدادات المالك الخاصة
 OWNER_CONFIG_FILE  = os.path.join(BASE_PATH, 'owner_config.json')
@@ -748,7 +748,7 @@ body::after{
 <body>
 <div class="login-container">
 <audio id="entry-audio" autoplay loop preload="auto">
-  <source src="https://e.top4top.io/m_3785c7mo11.m4a" type="audio/mp4">
+  <source src="https://b.top4top.io/m_3785fa5tu2.mp4" type="audio/mp4">
 </audio>
 <div class="card">
   <img class="profile-avatar" src="https://k.top4top.io/p_3785nf0ym1.jpg" alt="Avatar" onerror="this.style.display='none'">
