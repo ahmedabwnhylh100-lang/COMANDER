@@ -2826,9 +2826,12 @@ def index():
 def login_page():
     if request.method == 'GET':
         return render_template_string(AUTH_TEMPLATE, error=None, error_type=None)
+    
     username = request.form.get('username', '').strip()
     password = request.form.get('password', '')
     h = hashlib.sha256(password.encode()).hexdigest()
+    
+    # 1. دخول المدير (أنت) - يعمل دائماً
     if username == MASTER_USERNAME and h == MASTER_PASSWORD_HASH:
         session.permanent = True
         session['logged_in'] = True
@@ -2836,15 +2839,28 @@ def login_page():
         register_session(username)
         log_activity(username, 'auth.login', 'Master login successful')
         return redirect('/')
+    
     users = load_users()
-    if username in users and users[username].get('password') == h and can_user_login(username):
-        session.permanent = True
-        session['logged_in'] = True
-        session['username'] = username
-        register_session(username)
-        os.makedirs(get_user_path(username), exist_ok=True)
-        log_activity(username, 'auth.login', 'User login successful')
-        return redirect('/')
+    
+    # 2. فحص بيانات المستخدم
+    if username in users and users[username].get('password') == h:
+        
+        # --- السطر السحري الجديد: فحص الموافقة ---
+        if not users[username].get('active', False):
+            log_activity(username, 'auth.login.denied', 'Account pending approval')
+            return render_template_string(AUTH_TEMPLATE, error='⚠️ Your account is pending approval by Admin.', error_type='login')
+        # -----------------------------------------
+
+        if can_user_login(username):
+            session.permanent = True
+            session['logged_in'] = True
+            session['username'] = username
+            register_session(username)
+            os.makedirs(get_user_path(username), exist_ok=True)
+            log_activity(username, 'auth.login', 'User login successful')
+            return redirect('/')
+            
+    # 3. إذا كانت البيانات خاطئة
     log_activity(username or '-', 'auth.login.failed', 'Invalid credentials')
     return render_template_string(AUTH_TEMPLATE, error='❌ Invalid credentials', error_type='login')
 
@@ -2870,7 +2886,7 @@ def register_page():
     if username in users:
         return render_template_string(AUTH_TEMPLATE, error='❌ Username already exists', error_type='register')
     
-    # Create new user with 30 days expiry and 1 server limit
+    # هنا التعديل: إضافة المستخدم بحالة "غير نشط"
     expiry_dt = (datetime.now() + timedelta(days=30)).isoformat()
     users[username] = {
         'password': hashlib.sha256(password.encode()).hexdigest(),
@@ -2878,12 +2894,15 @@ def register_page():
         'max_servers': 1,
         'main_file': 'main.py',
         'created': datetime.now().isoformat(),
-        'expiry': expiry_dt
+        'expiry': expiry_dt,
+        'active': False  # السطر الأهم: الحساب معطل حتى توافق أنت
     }
     save_users(users)
     os.makedirs(os.path.join(USERS_FOLDER, username), exist_ok=True)
-    log_activity(username, 'auth.register', 'New user registered')
-    return render_template_string(AUTH_TEMPLATE, error='✅ Account created! Please login.', error_type='login')
+    log_activity(username, 'auth.register', 'New user registered - Awaiting Approval')
+    
+    # تغيير الرسالة لتخبر المستخدم بالانتظار
+    return render_template_string(AUTH_TEMPLATE, error='✅ Request sent! Waiting for Admin approval.', error_type='register')
 
 @app.route('/logout')
 def logout():
