@@ -1301,13 +1301,13 @@ html,body{background:#1f2933;color:#d6dde3;min-height:100vh}
     <a href="https://t.me/Xcomaanderx" target="_blank" style="text-decoration:none">
       <div class="stat-card" style="border-left-color:#29c7d3;cursor:pointer;text-align:center;padding:12px">
         <div class="lbl">👨‍💻 Developer</div>
-        <div class="val" style="font-size:13px;color:#29c7d3">@U_43_Ziad</div>
+        <div class="val" style="font-size:13px;color:#29c7d3">@Xcomaanderx</div>
       </div>
     </a>
     <a href="https://t.me/Notfound_Comander" target="_blank" style="text-decoration:none">
       <div class="stat-card" style="border-left-color:#f6b73c;cursor:pointer;text-align:center;padding:12px">
         <div class="lbl">📢 Channel</div>
-        <div class="val" style="font-size:13px;color:#f6b73c">@@Xcomaanderx</div>
+        <div class="val" style="font-size:13px;color:#f6b73c">@Xcomaanderx</div>
       </div>
     </a>
   </div>
