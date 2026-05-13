@@ -3939,7 +3939,59 @@ def approve_user(username):
         save_users(users)
         return f'<div dir="rtl" style="font-family:sans-serif; text-align:center; margin-top:50px;"><h3>✅ تم تفعيل حساب {username} بنجاح!</h3><a href="/admin/users">العودة لقائمة المستخدمين</a></div>'
     return "المستخدم غير موجود"
+
+    # ==========================================
+# محرك تشغيل الملفات (Node.js & Python)
+# ==========================================
+import subprocess
+import os
+import signal
+
+# تخزين العمليات لضمان عدم تكرارها واستهلاك الرام
+active_processes = {}
+
+@app.route('/api/run/<bot_type>', methods=['POST'])
+def run_engine(bot_type):
+    if not session.get('logged_in'):
+        return jsonify({"status": "error", "msg": "يجب تسجيل الدخول أولاً"}), 403
     
+    user_id = str(session.get('user_id'))
+    
+    # إنهاء أي عملية قديمة للمستخدم لتوفير الـ 512MB رام
+    if user_id in active_processes:
+        try:
+            active_processes[user_id].terminate()
+        except:
+            pass
+
+    try:
+        # تحديد المسار (تأكد أن الملفات ترفع داخل مجلد users_data)
+        cwd_path = os.path.join(os.getcwd(), 'users_data', user_id)
+        if not os.path.exists(cwd_path):
+            os.makedirs(cwd_path)
+
+        if bot_type == 'node':
+            # تشغيل Node.js
+            proc = subprocess.Popen(['node', 'index.js'], cwd=cwd_path)
+        else:
+            # تشغيل Python
+            proc = subprocess.Popen(['python', 'main.py'], cwd=cwd_path)
+        
+        active_processes[user_id] = proc
+        return jsonify({"status": "success", "msg": f"تم تشغيل البوت بمحرك {bot_type}"})
+    except Exception as e:
+        return jsonify({"status": "error", "msg": str(e)})
+
+@app.route('/api/stop_bot', methods=['POST'])
+def stop_engine():
+    user_id = str(session.get('user_id'))
+    if user_id in active_processes:
+        active_processes[user_id].terminate()
+        del active_processes[user_id]
+        return jsonify({"status": "success", "msg": "تم إيقاف البوت بنجاح"})
+    return jsonify({"status": "info", "msg": "لا توجد عمليات جارية حالياً"})
+# ==========================================
+
 # =============================================================================
 # التشغيل الرئيسي
 # =============================================================================
