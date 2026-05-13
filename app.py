@@ -1298,7 +1298,7 @@ html,body{background:#1f2933;color:#d6dde3;min-height:100vh}
       <div class="lbl">🔌 Port</div>
       <div class="val" style="font-size:13px;color:#65c466;font-weight:700" id="port-display">3177</div>
     </div>
-    <a href="https://t.me/U_43_Ziad" target="_blank" style="text-decoration:none">
+    <a href="https://t.me/Xcomaanderx" target="_blank" style="text-decoration:none">
       <div class="stat-card" style="border-left-color:#29c7d3;cursor:pointer;text-align:center;padding:12px">
         <div class="lbl">👨‍💻 Developer</div>
         <div class="val" style="font-size:13px;color:#29c7d3">@U_43_Ziad</div>
