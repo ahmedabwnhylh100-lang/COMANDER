@@ -3893,7 +3893,53 @@ def start_configured_extra_ports():
             threading.Thread(target=run_extra_port, args=(int(p['port']), p.get('note','')), daemon=True).start()
         except Exception:
             pass
+# --- صفحة الإدارة لتفعيل المستخدمين ---
+@app.route('/admin/users')
+def admin_manage_users():
+    if not session.get('logged_in') or session.get('username') != MASTER_USERNAME:
+        return "غير مسموح لك بالدخول!", 403
+    
+    users = load_users()
+    html = '''
+    <div dir="rtl" style="font-family: sans-serif; padding: 20px; background-color: #1a1a1a; color: white; min-height: 100vh;">
+        <h2 style="color: #00ff00;">إدارة طلبات التسجيل</h2>
+        <table border="1" style="width:100%; border-collapse: collapse; background: #2d2d2d; border-color: #444;">
+            <tr style="background: #444;">
+                <th style="padding: 10px;">اسم المستخدم</th>
+                <th style="padding: 10px;">الحالة</th>
+                <th style="padding: 10px;">الإجراء</th>
+            </tr>
+    '''
+    for user, data in users.items():
+        is_active = data.get('active', False)
+        status = "✅ مفعل" if is_active else "⏳ بانتظار الموافقة"
+        action = ""
+        if not is_active:
+            action = f'<a href="/admin/approve/{user}"><button style="background:#28a745; color:white; border:none; padding: 5px 15px; cursor:pointer; border-radius:4px;">تفعيل الحساب</button></a>'
+        
+        html += f'''
+            <tr>
+                <td style="padding: 10px; text-align: center;">{user}</td>
+                <td style="padding: 10px; text-align: center;">{status}</td>
+                <td style="padding: 10px; text-align: center;">{action}</td>
+            </tr>
+        '''
+    
+    html += '</table><br><a href="/" style="color: #00ff00; text-decoration: none;">⬅ العودة للوحة التحكم</a></div>'
+    return render_template_string(html)
 
+@app.route('/admin/approve/<username>')
+def approve_user(username):
+    if not session.get('logged_in') or session.get('username') != MASTER_USERNAME:
+        return "غير مسموح", 403
+    
+    users = load_users()
+    if username in users:
+        users[username]['active'] = True
+        save_users(users)
+        return f'<div dir="rtl" style="font-family:sans-serif; text-align:center; margin-top:50px;"><h3>✅ تم تفعيل حساب {username} بنجاح!</h3><a href="/admin/users">العودة لقائمة المستخدمين</a></div>'
+    return "المستخدم غير موجود"
+    
 # =============================================================================
 # التشغيل الرئيسي
 # =============================================================================
