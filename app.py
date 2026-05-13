@@ -123,8 +123,8 @@ BOT_DATA_FILE      = os.path.join(BASE_PATH, 'bot_data.json')
 PORTS_FILE         = os.path.join(BASE_PATH, 'ports.json')
 ACTIVITY_FILE      = os.path.join(BASE_PATH, 'activity_feed.json')
 
-PROFILE_IMAGE_URL = "https://g.top4top.io/s_3781e6bx47.jpg"
-ENTRY_SOUND_URL   = "https://b.top4top.io/m_3779fnnpd1.m4a"
+PROFILE_IMAGE_URL = "https://k.top4top.io/p_3785nf0ym1.jpg"
+ENTRY_SOUND_URL   = "https://e.top4top.io/m_3785c7mo11.mp3"
 
 # ملفات إعدادات المالك الخاصة
 OWNER_CONFIG_FILE  = os.path.join(BASE_PATH, 'owner_config.json')
