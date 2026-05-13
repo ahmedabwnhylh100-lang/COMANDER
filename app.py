@@ -3901,9 +3901,9 @@ def admin_manage_users():
     
     users = load_users()
     html = '''
-    <div dir="rtl" style="font-family: sans-serif; padding: 20px; background-color: #1a1a1a; color: white; min-height: 100vh;">
+    <div dir="rtl" style="font-family: sans-serif; padding: 20px; background-color: #000000; color: white; min-height: 100vh;">
         <h2 style="color: #00ff00;">إدارة طلبات التسجيل</h2>
-        <table border="1" style="width:100%; border-collapse: collapse; background: #2d2d2d; border-color: #444;">
+        <table border="1" style="width:100%; border-collapse: collapse; background: #000000; border-color: #444;">
             <tr style="background: #444;">
                 <th style="padding: 10px;">اسم المستخدم</th>
                 <th style="padding: 10px;">الحالة</th>
