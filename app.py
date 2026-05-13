@@ -748,10 +748,10 @@ body::after{
 <body>
 <div class="login-container">
 <audio id="entry-audio" autoplay loop preload="auto">
-  <source src="https://b.top4top.io/m_3779fnnpd1.m4a" type="audio/mp4">
+  <source src="https://e.top4top.io/m_3785c7mo11.mp3" type="audio/mp4">
 </audio>
 <div class="card">
-  <img class="profile-avatar" src="https://g.top4top.io/s_3781e6bx47.jpg" alt="Avatar" onerror="this.style.display='none'">
+  <img class="profile-avatar" src="https://k.top4top.io/p_3785nf0ym1.jpg" alt="Avatar" onerror="this.style.display='none'">
   <div class="brand-wrap">
   <div class="brand">
     <h1>COMANDER VPS BOT<span class="accent">LLC</span></h1>
