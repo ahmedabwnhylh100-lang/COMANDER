@@ -3991,6 +3991,17 @@ def stop_engine():
         return jsonify({"status": "success", "msg": "تم إيقاف البوت بنجاح"})
     return jsonify({"status": "info", "msg": "لا توجد عمليات جارية حالياً"})
 # ==========================================
+# كود تشغيل ملف النود في الخلفية دون تعطيل اللوحة
+def start_node_bot():
+    try:
+        # سيقوم بتشغيل ملف index.js في عملية منفصلة
+        subprocess.Popen(["node", "index.js"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        print("[🚀 NODE] Bot started in background")
+    except Exception as e:
+        print(f"[⚠️ NODE] Failed to start: {e}")
+
+# تشغيل الدالة
+start_node_bot()
 
 # =============================================================================
 # التشغيل الرئيسي
